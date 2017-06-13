@@ -2,8 +2,11 @@
 
 class MY_Model extends CI_Model{
 
-	const TABLE = 'error';
+	const TABLE = false;
 	public function __construct(){
+	    if(!$this::TABLE){
+	        throw new Exception("Please Specify TABLE constant",1146);
+        }
 		parent::__construct();
 		$this->load->database();
 	}
@@ -14,8 +17,9 @@ class MY_Model extends CI_Model{
 
 	public function create($data){
 		if($this->db->insert($this::TABLE, $data)){
-			$this->populate($this->get($this->db->insert_id()));	
-			return true;
+		    $got = $this->get($this->db->insert_id());
+			$this->populate($got);
+			return $got;
 		}else{
 			return false;
 		}
@@ -25,6 +29,7 @@ class MY_Model extends CI_Model{
 		$data = $this->db->get_where($this::TABLE,['id' => $id])->result();
 		if ($populate):
 			$this->populate($data);
+		//should you return???
 		endif;
 		return $data;
 	}
