@@ -10,7 +10,10 @@ angular.module('people',[])
         return api;
     }])
     .controller('login',['api',function(api){
-        console.log(api.get("user/2"));
+        var v = api.get("user/2");
+        setTimeout(function(){
+            console.log(v);
+        },6000);
     }]).controller('register',function(){
         console.log("registering");
     });
