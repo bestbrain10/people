@@ -1,7 +1,7 @@
 <?php
 
 class MY_Model extends CI_Model{
-
+    protected $hide = Array();
 	const TABLE = false;
 	public function __construct(){
 	    if(!$this::TABLE){
@@ -26,12 +26,14 @@ class MY_Model extends CI_Model{
 	}
 
 	public function get($id,$populate = false){
-		$data = $this->db->get_where($this::TABLE,['id' => $id])->result();
+	    $id = is_numeric($id)?['id'=>$id]:$id;
+		$data = $this->db->get_where($this::TABLE,$id)->result();
 		if ($populate):
 			$this->populate($data);
-		//should you return???
+		    return true;
+		else:
+		    return $data;
 		endif;
-		return $data;
 	}
 
 	public function populate($obj){
@@ -61,5 +63,5 @@ class MY_Model extends CI_Model{
 	}
 
 
-	
+
 }

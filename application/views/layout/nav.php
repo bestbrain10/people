@@ -45,16 +45,16 @@
         <!--when not logged in-->
 
         <div id="bs-example-navbar-collapse-1" class="navbar-collapse collapse">
-            <form class="navbar-form navbar-right" ng-controller="login">
-                <div class="input-group">
+            <form method="post" class="navbar-form navbar-right" to-api="user/login" ng-controller="login as l" name="loginForm" ajax-form="l.login">
+                <div class="input-group" ng-class="{'has-error':loginForm.email.$invalid}">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                    <input type="text" placeholder="Email" class="form-control">
+                    <input type="email" placeholder="Email" class="form-control" ng-model="u.email" name="email" pattern="\w{2,}@\w{3,}\.\w{2,}" required>
                 </div>
-                <div class="input-group">
+                <div class="input-group" ng-class="{'has-error': loginForm.password.$invalid}">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                    <input type="password" placeholder="Password" class="form-control">
+                    <input type="password" placeholder="Password" class="form-control" name="password" ng-model="u.password" pattern=".{6,32}" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Log in</button>
+                <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$pristine || loginForm.$invalid">Log in</button>
             </form>
         </div>
 
